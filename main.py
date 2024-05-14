@@ -6,7 +6,7 @@ from customtkinter import *
 eu = Transacao()
 
 root = customtkinter.CTk()
-root.geometry('400x400')
+root.geometry('800x400')
 root.title("Finanças")
 fonte = customtkinter.CTkFont("JetBrains 30")
 
@@ -44,10 +44,13 @@ def adicionar():
         va = float(en.get())
         de = en2.get()
         ca = en3.get()
-        list = []
         eu.adc_valor(va,de,ca)
-        list.append(eu)
-        print(list)
+        transacoes.append(eu)
+        saldoConta.configure(text=f"SALDO: {eu.total_total()}")
+        tran_text = "\n".join([f"DESCRIÇÃO: {t.descricao} -> VALOR: {t.valor} -> CATEGORIA: {t.categoria}" for t in transacoes])
+        tran.configure(text=f"Transações Realizadas: \n{tran_text}")
+        root.update()
+
         
         
     botao = customtkinter.CTkButton(root2, text="Adicionar Transação", command=acionar)
@@ -60,10 +63,12 @@ def adicionar():
     root2.mainloop()
 
 saldoConta = customtkinter.CTkLabel(root, text = f"SALDO: {eu.total_total()}", font=fonte)
-saldoConta.place(relx=0.5,y=35, anchor="center")
+saldoConta.place(x=700,y=35, anchor="center")
 
-tran = customtkinter.CTkLabel(root, text = f"Transações Realizadas: {list}", font=fonte)
-tran.place(relx=0.5,y=60, anchor="center")
+transacoes = []
+
+tran = customtkinter.CTkLabel(root, text = "Transações Realizadas: ", font=fonte)
+tran.place(relx=0.5,y=180, anchor="center")
 
 
 bt = customtkinter.CTkButton(root, text="Adicionar RECEITA/GASTOS/LAZER", font=fonte, command=adicionar)
