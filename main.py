@@ -3,12 +3,16 @@ from transacao import Transacao
 import customtkinter 
 from customtkinter import *
 
-eu = Transacao()
+
+
 
 root = customtkinter.CTk()
 root.geometry('800x400')
 root.title("Finanças")
 fonte = customtkinter.CTkFont("JetBrains 30")
+
+
+eu = []
 
 
 
@@ -44,10 +48,18 @@ def adicionar():
         va = float(en.get())
         de = en2.get()
         ca = en3.get()
-        eu.adc_valor(va,de,ca)
-        transacoes.append(eu)
-        saldoConta.configure(text=f"SALDO: {eu.total_total()}")
-        tran_text = "\n".join([f"DESCRIÇÃO: {t.descricao} -> VALOR: {t.valor} -> CATEGORIA: {t.categoria}" for t in transacoes])
+        i = len(eu)
+        eu.append(Transacao())
+        eu[i -1 ].adc_valor(va,de,ca)
+        def total_total():
+            contador =0
+            for i in eu:
+                contador += i.getvalor()
+                print(i)
+            return contador
+            
+        saldoConta.configure(text=f"SALDO: {total_total()}")
+        tran_text = "\n".join([f"DESCRIÇÃO: {t.descricao} -> VALOR: {t.valor} -> CATEGORIA: {t.categoria}" for t in eu])
         tran.configure(text=f"Transações Realizadas: \n{tran_text}")
         root.update()
 
@@ -62,10 +74,8 @@ def adicionar():
     
     root2.mainloop()
 
-saldoConta = customtkinter.CTkLabel(root, text = f"SALDO: {eu.total_total()}", font=fonte)
+saldoConta = customtkinter.CTkLabel(root, text = f"SALDO: 0" , font=fonte)
 saldoConta.place(x=700,y=35, anchor="center")
-
-transacoes = []
 
 tran = customtkinter.CTkLabel(root, text = "Transações Realizadas: ", font=fonte)
 tran.place(relx=0.5,y=180, anchor="center")
