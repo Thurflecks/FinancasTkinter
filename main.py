@@ -1,18 +1,23 @@
 from categoria import Categoria
 from transacao import Transacao
-import customtkinter 
+import customtkinter
 from customtkinter import *
+
 
 root = customtkinter.CTk()
 root.geometry('800x400')
 root.title("Finanças")
-fonte = customtkinter.CTkFont("JetBrains")
+
+
+fonte = customtkinter.CTkFont("JetBrains Mono", size=12)
+
 
 eu = []
 
 def adicionar():
     root2 = customtkinter.CTkToplevel()
     root2.geometry("300x320")
+    
     lb = customtkinter.CTkLabel(root2, text="Qual valor?", font=fonte)
     lb.place(relx=0.5, y=20, anchor="center")
     
@@ -37,12 +42,23 @@ def adicionar():
     var.set(opcoes[0]) 
     
     en3 = customtkinter.CTkOptionMenu(root2, variable=var, values=opcoes)
-    en3.place(x=90, y=215) 
+    en3.place(x=150, y=235, anchor="center") 
 
     def acionar():
-        va = float(en.get())
+        try:
+            va = float(en.get())
+        except ValueError:
+            error_label = customtkinter.CTkLabel(root2, text="Por favor, insira um valor numérico", font=fonte, fg_color="red")
+            error_label.place(relx=0.5, y=170, anchor="center")
+            return
+        
         de = en2.get()
         ca = en3.get()
+        
+        
+        if ca == Categoria.DESPESA.name:
+            va = -abs(va)
+        
         transacao = Transacao(va, de, Categoria[ca])
         eu.append(transacao)
         
@@ -53,7 +69,7 @@ def adicionar():
             return contador
             
         saldoConta.configure(text=f"SALDO: {total_total()}")
-        tran_text = "\n".join([f"DESCRIÇÃO: {t.descricao} -> VALOR: {t.valor} -> CATEGORIA: {t.categoria.name}" for t in eu])
+        tran_text = "\n".join([f"DESCRIÇÃO: {t.descricao} / VALOR: {t.valor} / CATEGORIA: {t.categoria.name}" for t in eu])
         tran.configure(text=f"Transações Realizadas: \n{tran_text}")
         root.update()
         root2.destroy()
@@ -62,6 +78,7 @@ def adicionar():
     botao.place(relx=0.5, y=280, anchor="center")
 
     root2.mainloop()
+
 
 saldoConta = customtkinter.CTkLabel(root, text="SALDO: 0", font=fonte)
 saldoConta.place(x=700, y=35, anchor="center")
