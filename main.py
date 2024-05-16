@@ -2,6 +2,7 @@ from categoria import Categoria
 from transacao import Transacao
 import customtkinter
 from customtkinter import *
+import os
 
 
 root = customtkinter.CTk()
@@ -10,6 +11,11 @@ root.title("Finanças")
 
 
 fonte = customtkinter.CTkFont("JetBrains Mono", size=12)
+
+usuario = os.getlogin()
+
+nome = customtkinter.CTkLabel(root, text= f"Olá, {usuario} ", font = ('JetBrains Mono', 16))
+nome.place(x=30, y= 35)
 
 
 eu = []
@@ -80,8 +86,8 @@ def adicionar():
     root2.mainloop()
 
 
-saldoConta = customtkinter.CTkLabel(root, text="SALDO: 0", font=fonte)
-saldoConta.place(x=700, y=35, anchor="center")
+saldoConta = customtkinter.CTkLabel(root, text="SALDO: 0", font=("JetBrains Mono", 16))
+saldoConta.place(x=620, y=35)
 
 tran = customtkinter.CTkLabel(root, text="Transações Realizadas:", font=fonte)
 tran.place(relx=0.5, y=180, anchor="center")
